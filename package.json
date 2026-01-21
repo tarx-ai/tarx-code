@@ -1,22 +1,22 @@
 {
-	"name": "claude-dev",
-	"displayName": "Cline",
-	"description": "Autonomous coding agent right in your IDE, capable of creating/editing files, running commands, using the browser, and more with your permission every step of the way.",
-	"version": "3.51.0",
+	"name": "tarx-code",
+	"displayName": "TARX Code",
+	"description": "AI-powered coding assistant on TARX mesh - local-first, privacy-focused, no cloud dependencies",
+	"version": "1.0.0",
 	"icon": "assets/icons/icon.png",
 	"engines": {
 		"vscode": "^1.84.0"
 	},
 	"author": {
-		"name": "Cline Bot Inc."
+		"name": "TARX"
 	},
 	"license": "Apache-2.0",
-	"publisher": "saoudrizwan",
+	"publisher": "tarx",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cline/cline"
+		"url": "https://github.com/tarx/tarx-code"
 	},
-	"homepage": "https://cline.bot",
+	"homepage": "https://tarx.ai",
 	"categories": [
 		"AI",
 		"Chat",
@@ -26,18 +26,16 @@
 		"Testing"
 	],
 	"keywords": [
-		"cline",
-		"claude",
-		"dev",
-		"mcp",
-		"openrouter",
+		"tarx",
+		"local-first",
+		"mesh",
+		"llama",
 		"coding",
 		"agent",
 		"autonomous",
-		"chatgpt",
-		"sonnet",
 		"ai",
-		"llama"
+		"privacy",
+		"offline"
 	],
 	"activationEvents": [
 		"onLanguage",
@@ -111,7 +109,7 @@
 			"activitybar": [
 				{
 					"id": "claude-dev-ActivityBar",
-					"title": "Cline",
+					"title": "TARX Code",
 					"icon": "assets/icons/icon.svg"
 				}
 			]
@@ -371,8 +369,34 @@
 			]
 		},
 		"configuration": {
-			"title": "Cline",
-			"properties": {}
+			"title": "TARX Code",
+			"properties": {
+				"tarxCode.llamaServerUrl": {
+					"type": "string",
+					"default": "http://localhost:11435",
+					"description": "URL for local llama-server instance"
+				},
+				"tarxCode.meshApiUrl": {
+					"type": "string",
+					"default": "http://localhost:11436",
+					"description": "URL for TARX mesh API"
+				},
+				"tarxCode.enableMeshRouting": {
+					"type": "boolean",
+					"default": true,
+					"description": "Route complex queries through TARX mesh network when available"
+				},
+				"tarxCode.enableCloudFallback": {
+					"type": "boolean",
+					"default": false,
+					"description": "[Enterprise] Enable cloud API fallback when local/mesh unavailable"
+				},
+				"tarxCode.model": {
+					"type": "string",
+					"default": "tx-16g",
+					"description": "Model to use for inference (e.g., tx-8g, tx-16g)"
+				}
+			}
 		}
 	},
 	"scripts": {

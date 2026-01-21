@@ -37,6 +37,7 @@ import { QwenCodeHandler } from "./providers/qwen-code"
 import { RequestyHandler } from "./providers/requesty"
 import { SambanovaHandler } from "./providers/sambanova"
 import { SapAiCoreHandler } from "./providers/sapaicore"
+import { TarxMeshHandler } from "./providers/tarx-mesh"
 import { TogetherHandler } from "./providers/together"
 import { VercelAIGatewayHandler } from "./providers/vercel-ai-gateway"
 import { VertexHandler } from "./providers/vertex"
@@ -78,6 +79,16 @@ function createHandlerForProvider(
 	mode: Mode,
 ): ApiHandler {
 	switch (apiProvider) {
+		case "tarx-mesh":
+			return new TarxMeshHandler({
+				onRetryAttempt: options.onRetryAttempt,
+				tarxLlamaServerUrl: (options as any).tarxLlamaServerUrl,
+				tarxMeshApiUrl: (options as any).tarxMeshApiUrl,
+				tarxEnableMeshRouting: (options as any).tarxEnableMeshRouting ?? true,
+				tarxEnableCloudFallback: (options as any).tarxEnableCloudFallback ?? false,
+				tarxModel: (options as any).tarxModel ?? "tx-16g",
+				requestTimeoutMs: options.requestTimeoutMs,
+			})
 		case "anthropic":
 			return new AnthropicHandler({
 				onRetryAttempt: options.onRetryAttempt,
@@ -444,13 +455,15 @@ function createHandlerForProvider(
 				apiModelId: mode === "plan" ? options.planModeNousResearchModelId : options.actModeNousResearchModelId,
 			})
 		default:
-			return new AnthropicHandler({
+			// Default to TARX Mesh (local-first)
+			return new TarxMeshHandler({
 				onRetryAttempt: options.onRetryAttempt,
-				apiKey: options.apiKey,
-				anthropicBaseUrl: options.anthropicBaseUrl,
-				apiModelId: mode === "plan" ? options.planModeApiModelId : options.actModeApiModelId,
-				thinkingBudgetTokens:
-					mode === "plan" ? options.planModeThinkingBudgetTokens : options.actModeThinkingBudgetTokens,
+				tarxLlamaServerUrl: (options as any).tarxLlamaServerUrl,
+				tarxMeshApiUrl: (options as any).tarxMeshApiUrl,
+				tarxEnableMeshRouting: (options as any).tarxEnableMeshRouting ?? true,
+				tarxEnableCloudFallback: (options as any).tarxEnableCloudFallback ?? false,
+				tarxModel: (options as any).tarxModel ?? "tx-16g",
+				requestTimeoutMs: options.requestTimeoutMs,
 			})
 	}
 }
