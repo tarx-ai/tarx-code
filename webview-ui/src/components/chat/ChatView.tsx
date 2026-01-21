@@ -13,7 +13,6 @@ import { useExtensionState } from "@/context/ExtensionStateContext"
 import { useShowNavbar } from "@/context/PlatformContext"
 import { FileServiceClient, UiServiceClient } from "@/services/grpc-client"
 import { Navbar } from "../menu/Navbar"
-import AutoApproveBar from "./auto-approve-menu/AutoApproveBar"
 // Import utilities and hooks from the new structure
 import {
 	ActionButtons,
@@ -56,8 +55,9 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 		currentFocusChainChecklist,
 		hooksEnabled,
 	} = useExtensionState()
-	const isProdHostedApp = userInfo?.apiBaseUrl === "https://app.cline.bot"
-	const shouldShowQuickWins = isProdHostedApp && (!taskHistory || taskHistory.length < QUICK_WINS_HISTORY_THRESHOLD)
+	// TARX: Check for TARX hosted app instead of Cline
+	const isTarxApp = userInfo?.apiBaseUrl?.includes("tarx.com") || true // Always show for TARX local
+	const shouldShowQuickWins = isTarxApp && (!taskHistory || taskHistory.length < QUICK_WINS_HISTORY_THRESHOLD)
 
 	//const task = messages.length > 0 ? (messages[0].say === "task" ? messages[0] : undefined) : undefined) : undefined
 	const task = useMemo(() => messages.at(0), [messages]) // leaving this less safe version here since if the first message is not a task, then the extension is in a bad state and needs to be debugged (see Cline.abort)
@@ -335,7 +335,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 	const scrollBehavior = useScrollBehavior(messages, visibleMessages, groupedMessages, expandedRows, setExpandedRows)
 
 	const placeholderText = useMemo(() => {
-		const text = task ? "Type a message..." : "Type your task here..."
+		const text = task ? "Type a message..." : "Type your coding task here..."
 		return text
 	}, [task])
 
@@ -378,7 +378,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 				)}
 			</div>
 			<footer className="bg-(--vscode-sidebar-background)" style={{ gridRow: "2" }}>
-				<AutoApproveBar />
+				{/* TARX: Auto-approve bar removed - using local inference with automatic approval */}
 				<ActionButtons
 					chatState={chatState}
 					messageHandlers={messageHandlers}

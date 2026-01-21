@@ -52,23 +52,23 @@ class ClineEndpoint {
 			case Environment.staging:
 				return {
 					environment: Environment.staging,
-					appBaseUrl: "https://staging-app.cline.bot",
-					apiBaseUrl: "https://core-api.staging.int.cline.bot",
-					mcpBaseUrl: "https://core-api.staging.int.cline.bot/v1/mcp",
+					appBaseUrl: "https://staging-app.tarx.com",
+					apiBaseUrl: "https://api.staging.tarx.com",
+					mcpBaseUrl: "https://api.staging.tarx.com/v1/mcp",
 				}
 			case Environment.local:
 				return {
 					environment: Environment.local,
 					appBaseUrl: "http://localhost:3000",
 					apiBaseUrl: "http://localhost:7777",
-					mcpBaseUrl: "https://api.cline.bot/v1/mcp",
+					mcpBaseUrl: "http://localhost:7777/v1/mcp",
 				}
 			default:
 				return {
 					environment: Environment.production,
-					appBaseUrl: "https://app.cline.bot",
-					apiBaseUrl: "https://api.cline.bot",
-					mcpBaseUrl: "https://api.cline.bot/v1/mcp",
+					appBaseUrl: "https://app.tarx.com",
+					apiBaseUrl: "https://api.tarx.com",
+					mcpBaseUrl: "https://api.tarx.com/v1/mcp",
 				}
 		}
 	}

@@ -122,8 +122,8 @@ export const WelcomeSection: React.FC<WelcomeSectionProps> = ({
 				return false
 			}
 
-			if (banner.isClineUserOnly !== undefined) {
-				return banner.isClineUserOnly === !!clineUser
+			if (banner.isTarxUserOnly !== undefined) {
+				return banner.isTarxUserOnly === !!clineUser
 			}
 
 			if (banner.platforms && !banner.platforms.includes(getCurrentPlatform())) {
@@ -176,6 +176,16 @@ export const WelcomeSection: React.FC<WelcomeSectionProps> = ({
 					StateServiceClient.installClineCli({}).catch((error) =>
 						console.error("Failed to initiate CLI installation:", error),
 					)
+					break
+
+				case BannerActionType.EnableSuperComputer:
+					// Enable SuperComputer mode by setting the provider to tarx-mesh with supercomputer enabled
+					handleFieldsChange({
+						planModeApiProvider: "tarx-mesh",
+						actModeApiProvider: "tarx-mesh",
+					})
+					// Show a confirmation or navigate to settings
+					navigateToSettings("api-config")
 					break
 
 				default:
@@ -254,7 +264,7 @@ export const WelcomeSection: React.FC<WelcomeSectionProps> = ({
 									</TooltipTrigger>
 									<TooltipContent side="top">
 										Create a new git worktree and open it in a separate window. Great for running parallel
-										Cline tasks.
+										TARX tasks.
 									</TooltipContent>
 								</Tooltip>
 								*/}
@@ -278,7 +288,7 @@ export const WelcomeSection: React.FC<WelcomeSectionProps> = ({
 											</button>
 										</TooltipTrigger>
 										<TooltipContent side="bottom">
-											View and manage git worktrees. Great for running parallel Cline tasks.
+											View and manage git worktrees. Great for running parallel TARX tasks.
 										</TooltipContent>
 									</Tooltip>
 								)}

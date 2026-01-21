@@ -1,6 +1,7 @@
 /* Editor theme mapping */
 @theme {
-	--color-cline: #9663f1;
+	--color-tarx: #4caf50;
+	--color-cline: #9663f1; /* Legacy - keeping for compatibility */
 	--color-background: var(--vscode-sideBar-background);
 	--color-border: var(--vscode-focusBorder);
 	--color-border-panel: var(--vscode-panel-border);
@@ -136,6 +137,21 @@
 		}
 	}
 
+	--animate-scale-in: scaleIn 0.3s ease-out;
+	@keyframes scaleIn {
+		0% {
+			transform: scale(0);
+			opacity: 0;
+		}
+		50% {
+			transform: scale(1.2);
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
 	--animate-fade-slide-in: fadeSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 	@keyframes fadeSlideIn {
 		from {
@@ -225,38 +241,70 @@
 	--sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.922 0 0);
-	--primary-foreground: oklch(0.205 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
-	--destructive: oklch(0.704 0.191 22.216);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
+/*
+ * Dark mode - Grok-inspired near-black theme
+ * Matches TARX Desktop app styling
+ */
+.dark,
+[data-vscode-theme-kind="vscode-dark"],
+[data-vscode-theme-kind="vscode-high-contrast"] {
+	--background: oklch(0.08 0 0); /* Near black - #0a0a0a */
+	--foreground: oklch(0.98 0 0); /* Almost white */
+	--card: oklch(0.12 0 0); /* Slightly lighter than background - #121212 */
+	--card-foreground: oklch(0.98 0 0);
+	--popover: oklch(0.12 0 0);
+	--popover-foreground: oklch(0.98 0 0);
+	--primary: oklch(0.98 0 0);
+	--primary-foreground: oklch(0.08 0 0);
+	--secondary: oklch(0.18 0 0); /* #1f1f1f */
+	--secondary-foreground: oklch(0.98 0 0);
+	--muted: oklch(0.18 0 0);
+	--muted-foreground: oklch(0.64 0 0); /* #a3a3a3 */
+	--accent: oklch(0.22 0 0); /* #262626 */
+	--accent-foreground: oklch(0.98 0 0);
+	--destructive: oklch(0.55 0.2 25);
+	--border: oklch(0.2 0 0); /* #242424 */
+	--input: oklch(0.2 0 0);
+	--ring: oklch(0.35 0 0);
 	--chart-1: oklch(0.488 0.243 264.376);
 	--chart-2: oklch(0.696 0.17 162.48);
 	--chart-3: oklch(0.769 0.188 70.08);
 	--chart-4: oklch(0.627 0.265 303.9);
 	--chart-5: oklch(0.645 0.246 16.439);
-	--sidebar: oklch(0.205 0 0);
-	--sidebar-foreground: oklch(0.985 0 0);
-	--sidebar-primary: oklch(0.488 0.243 264.376);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.269 0 0);
-	--sidebar-accent-foreground: oklch(0.985 0 0);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-ring: oklch(0.556 0 0);
+	--sidebar: oklch(0.08 0 0);
+	--sidebar-foreground: oklch(0.98 0 0);
+	--sidebar-primary: oklch(0.55 0.2 142); /* TARX green */
+	--sidebar-primary-foreground: oklch(0.98 0 0);
+	--sidebar-accent: oklch(0.18 0 0);
+	--sidebar-accent-foreground: oklch(0.98 0 0);
+	--sidebar-border: oklch(0.2 0 0);
+	--sidebar-ring: oklch(0.35 0 0);
+}
+
+/*
+ * TARX Design System - Additional tokens
+ * Based on shadcn/ui conventions
+ */
+@theme {
+	/* Success/Warning colors */
+	--color-success: oklch(0.6 0.2 142); /* Green */
+	--color-success-foreground: oklch(1 0 0);
+	--color-warning: oklch(0.75 0.18 85); /* Yellow/Orange */
+	--color-warning-foreground: oklch(0.15 0 0);
+
+	/* TARX brand */
+	--color-tarx-primary: oklch(0.6 0.2 142); /* TARX Green */
+	--color-tarx-accent: oklch(0.55 0.15 142);
+
+	/* Shadows for dark mode */
+	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+	--shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+	--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+
+	/* Animation durations */
+	--duration-fast: 150ms;
+	--duration-normal: 200ms;
+	--duration-slow: 300ms;
 }
 
 @layer utilities {
@@ -339,5 +387,193 @@
 			content: "";
 			@apply inline-block w-0.5 h-[1em] ml-0.5 bg-foreground align-text-bottom animate-cursor-blink;
 		}
+	}
+
+	/*
+	 * TARX Design System Component Classes
+	 * shadcn/ui compatible patterns
+	 */
+
+	/* Card component - TARX style */
+	.tarx-card {
+		@apply bg-card text-card-foreground border border-border rounded-lg;
+		box-shadow: var(--shadow-sm);
+	}
+
+	.tarx-card-header {
+		@apply flex flex-col gap-1.5 p-6;
+	}
+
+	.tarx-card-title {
+		@apply text-lg font-semibold leading-none tracking-tight;
+	}
+
+	.tarx-card-description {
+		@apply text-sm text-muted-foreground;
+	}
+
+	.tarx-card-content {
+		@apply px-6 pb-6;
+	}
+
+	/* Badge component */
+	.tarx-badge {
+		@apply inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full;
+	}
+
+	.tarx-badge-success {
+		@apply bg-success text-success-foreground;
+	}
+
+	.tarx-badge-warning {
+		@apply bg-warning text-warning-foreground;
+	}
+
+	.tarx-badge-default {
+		@apply bg-primary text-primary-foreground;
+	}
+
+	.tarx-badge-secondary {
+		@apply bg-secondary text-secondary-foreground;
+	}
+
+	.tarx-badge-outline {
+		@apply bg-transparent border border-border text-foreground;
+	}
+
+	/* Button styles */
+	.tarx-btn {
+		@apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors;
+		@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+		@apply disabled:pointer-events-none disabled:opacity-50;
+		height: 40px;
+		padding: 0 16px;
+	}
+
+	.tarx-btn-primary {
+		@apply bg-primary text-primary-foreground hover:bg-primary/90;
+	}
+
+	.tarx-btn-secondary {
+		@apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+	}
+
+	.tarx-btn-ghost {
+		@apply bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground;
+	}
+
+	.tarx-btn-outline {
+		@apply bg-transparent border border-input text-foreground hover:bg-accent hover:text-accent-foreground;
+	}
+
+	.tarx-btn-sm {
+		height: 36px;
+		padding: 0 12px;
+		@apply text-sm rounded;
+	}
+
+	.tarx-btn-icon {
+		@apply w-10 h-10 p-0;
+	}
+
+	/* Input styles */
+	.tarx-input {
+		@apply flex w-full h-10 px-3 py-2 text-base bg-background text-foreground;
+		@apply border border-input rounded-md;
+		@apply focus:outline-none focus:ring-2 focus:ring-ring/20 focus:border-ring;
+		@apply disabled:cursor-not-allowed disabled:opacity-50;
+		@apply placeholder:text-muted-foreground;
+	}
+
+	/* Separator */
+	.tarx-separator {
+		@apply bg-border;
+	}
+
+	.tarx-separator-horizontal {
+		@apply h-px w-full;
+	}
+
+	.tarx-separator-vertical {
+		@apply w-px h-full;
+	}
+
+	/* Switch/Toggle */
+	.tarx-switch {
+		@apply inline-flex w-11 h-6 p-0.5 bg-input rounded-full cursor-pointer transition-colors;
+	}
+
+	.tarx-switch[data-state="checked"] {
+		@apply bg-tarx;
+	}
+
+	.tarx-switch-thumb {
+		@apply w-5 h-5 bg-background rounded-full shadow-sm transition-transform;
+	}
+
+	.tarx-switch[data-state="checked"] .tarx-switch-thumb {
+		transform: translateX(20px);
+	}
+
+	/* Progress bar */
+	.tarx-progress {
+		@apply relative w-full h-2 overflow-hidden bg-secondary rounded-full;
+	}
+
+	.tarx-progress-indicator {
+		@apply h-full bg-tarx rounded-full transition-all;
+	}
+
+	/* Skeleton loading */
+	.tarx-skeleton {
+		@apply bg-muted rounded-md animate-pulse;
+	}
+
+	/* Dropdown menu */
+	.tarx-dropdown-content {
+		@apply z-50 min-w-32 overflow-hidden p-1 bg-popover text-popover-foreground border border-border rounded-md;
+		box-shadow: var(--shadow-md);
+	}
+
+	.tarx-dropdown-item {
+		@apply flex items-center gap-2 px-2 py-2 text-sm rounded cursor-pointer outline-none;
+		@apply hover:bg-accent hover:text-accent-foreground;
+		@apply focus:bg-accent focus:text-accent-foreground;
+		@apply disabled:opacity-50 disabled:pointer-events-none;
+	}
+
+	/* Tooltip */
+	.tarx-tooltip {
+		@apply z-50 px-3 py-1.5 text-sm bg-popover text-popover-foreground border border-border rounded-md;
+		box-shadow: var(--shadow-md);
+	}
+
+	/* Shimmer effect for loading states */
+	.tarx-shimmer {
+		background: linear-gradient(90deg, transparent 0%, oklch(var(--foreground) / 0.1) 50%, transparent 100%);
+		background-size: 200% 100%;
+		animation: shimmer 1.5s ease-in-out infinite;
+	}
+
+	@keyframes shimmer {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+
+	/* Connection status indicator */
+	.tarx-status-connected {
+		@apply w-2 h-2 bg-success rounded-full;
+	}
+
+	.tarx-status-disconnected {
+		@apply w-2 h-2 bg-destructive rounded-full;
+	}
+
+	.tarx-status-connecting {
+		@apply w-2 h-2 bg-warning rounded-full animate-pulse;
 	}
 }

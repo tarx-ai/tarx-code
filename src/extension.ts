@@ -1,6 +1,43 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 
+// Initialize Sentry for error tracking (must be first)
+import * as Sentry from "@sentry/node"
+
+// Check if Sentry is enabled via VS Code settings (default: true)
+// Note: We read this early, before vscode module is fully available
+const isSentryEnabled = process.env.TARX_DISABLE_SENTRY !== "true"
+
+Sentry.init({
+	dsn: "https://170d1e959554553b171288deb362e584@o4510712283791360.ingest.us.sentry.io/4510748971433984",
+	enabled: isSentryEnabled,
+	environment: process.env.NODE_ENV === "development" ? "development" : "production",
+	release: "tarx-code@1.0.0",
+	// Privacy: Don't send PII
+	sendDefaultPii: false,
+	// Performance monitoring - 20% sample rate for production
+	tracesSampleRate: 0.2,
+	// Ignore common non-errors
+	ignoreErrors: ["ResizeObserver loop limit exceeded", "Network request failed", "AbortError"],
+	beforeSend(event) {
+		// Scrub any potential PII from error messages
+		if (event.exception?.values) {
+			for (const exception of event.exception.values) {
+				if (exception.value) {
+					// Remove file paths that might contain usernames
+					exception.value = exception.value.replace(/\/Users\/[^/]+/g, "/Users/[REDACTED]")
+					exception.value = exception.value.replace(/C:\\Users\\[^\\]+/g, "C:\\Users\\[REDACTED]")
+				}
+			}
+		}
+		return event
+	},
+})
+
+// Set custom tags for better filtering
+Sentry.setTag("tarx_version", "1.0.0")
+Sentry.setTag("os", process.platform)
+
 import assert from "node:assert"
 import { DIFF_VIEW_URI_SCHEME } from "@hosts/vscode/VscodeDiffViewProvider"
 import * as vscode from "vscode"
@@ -61,7 +98,19 @@ https://github.com/microsoft/vscode-webview-ui-toolkit-samples/tree/main/framewo
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-	setupHostProvider(context)
+	// Add Sentry breadcrumb for activation
+	Sentry.addBreadcrumb({
+		category: "lifecycle",
+		message: "TARX Code extension activating",
+		level: "info",
+	})
+
+	try {
+		setupHostProvider(context)
+	} catch (error) {
+		Sentry.captureException(error)
+		throw error
+	}
 
 	// Initialize hook discovery cache for performance optimization
 	HookDiscoveryCache.getInstance().initialize(
@@ -92,19 +141,46 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Clean up old temp files in background (non-blocking) and start periodic cleanup every 24 hours
 	ClineTempManager.startPeriodicCleanup()
 
-	Logger.log("Cline extension activated")
+	Logger.log("TARX CODE extension activated")
+
+	// Sentry breadcrumb for successful activation
+	Sentry.addBreadcrumb({
+		category: "lifecycle",
+		message: "TARX Code extension activated successfully",
+		level: "info",
+	})
 
 	const testModeWatchers = await initializeTestMode(webview)
 	// Initialize test mode and add disposables to context
 	context.subscriptions.push(...testModeWatchers)
 
-	vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV && IS_DEV === "true")
+	vscode.commands.executeCommand("setContext", "tarx.isDevMode", IS_DEV && IS_DEV === "true")
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {
 			webviewOptions: { retainContextWhenHidden: true },
 		}),
 	)
+
+	// Register "TARX Code: Open" command to focus the sidebar
+	context.subscriptions.push(
+		vscode.commands.registerCommand("tarx.openSidebar", async () => {
+			Sentry.addBreadcrumb({
+				category: "ui.action",
+				message: "User opened TARX Code sidebar",
+				level: "info",
+			})
+			await vscode.commands.executeCommand(`${VscodeWebviewProvider.SIDEBAR_ID}.focus`)
+		}),
+	)
+
+	// Create TARX status bar item (appears in title bar area)
+	const tarxStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100)
+	tarxStatusBarItem.text = "$(tarx-icon) TARX"
+	tarxStatusBarItem.tooltip = "Open TARX Code"
+	tarxStatusBarItem.command = "tarx.openSidebar"
+	tarxStatusBarItem.show()
+	context.subscriptions.push(tarxStatusBarItem)
 
 	const { commands } = ExtensionRegistryInfo
 
@@ -188,7 +264,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			.then((module) => {
 				const devTaskCommands = module.registerTaskCommands(webview.controller)
 				context.subscriptions.push(...devTaskCommands)
-				Logger.log("Cline dev task commands registered")
+				Logger.log("TARX CODE dev task commands registered")
 			})
 			.catch((error) => {
 				Logger.log("Failed to register dev task commands: " + error)
@@ -284,40 +360,40 @@ export async function activate(context: vscode.ExtensionContext) {
 						)
 					}
 
-					// Add to Cline (Always available)
-					const addAction = new vscode.CodeAction("Add to Cline", vscode.CodeActionKind.QuickFix)
+					// Add to TARX CODE (Always available)
+					const addAction = new vscode.CodeAction("Add to TARX CODE", vscode.CodeActionKind.QuickFix)
 					addAction.command = {
 						command: commands.AddToChat,
-						title: "Add to Cline",
+						title: "Add to TARX CODE",
 						arguments: [expandedRange, context.diagnostics],
 					}
 					actions.push(addAction)
 
-					// Explain with Cline (Always available)
-					const explainAction = new vscode.CodeAction("Explain with Cline", vscode.CodeActionKind.RefactorExtract) // Using a refactor kind
+					// Explain with TARX CODE (Always available)
+					const explainAction = new vscode.CodeAction("Explain with TARX CODE", vscode.CodeActionKind.RefactorExtract) // Using a refactor kind
 					explainAction.command = {
 						command: commands.ExplainCode,
-						title: "Explain with Cline",
+						title: "Explain with TARX CODE",
 						arguments: [expandedRange],
 					}
 					actions.push(explainAction)
 
-					// Improve with Cline (Always available)
-					const improveAction = new vscode.CodeAction("Improve with Cline", vscode.CodeActionKind.RefactorRewrite) // Using a refactor kind
+					// Improve with TARX CODE (Always available)
+					const improveAction = new vscode.CodeAction("Improve with TARX CODE", vscode.CodeActionKind.RefactorRewrite) // Using a refactor kind
 					improveAction.command = {
 						command: commands.ImproveCode,
-						title: "Improve with Cline",
+						title: "Improve with TARX CODE",
 						arguments: [expandedRange],
 					}
 					actions.push(improveAction)
 
-					// Fix with Cline (Only if diagnostics exist)
+					// Fix with TARX CODE (Only if diagnostics exist)
 					if (context.diagnostics.length > 0) {
-						const fixAction = new vscode.CodeAction("Fix with Cline", vscode.CodeActionKind.QuickFix)
+						const fixAction = new vscode.CodeAction("Fix with TARX CODE", vscode.CodeActionKind.QuickFix)
 						fixAction.isPreferred = true
 						fixAction.command = {
-							command: commands.FixWithCline,
-							title: "Fix with Cline",
+							command: commands.FixWithTarx,
+							title: "Fix with TARX CODE",
 							arguments: [expandedRange, context.diagnostics],
 						}
 						actions.push(fixAction)
@@ -346,7 +422,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}),
 	)
 	context.subscriptions.push(
-		vscode.commands.registerCommand(commands.FixWithCline, async (range: vscode.Range, diagnostics: vscode.Diagnostic[]) => {
+		vscode.commands.registerCommand(commands.FixWithTarx, async (range: vscode.Range, diagnostics: vscode.Diagnostic[]) => {
 			const context = await getContextForCommand(range, diagnostics)
 			if (!context) {
 				return
@@ -499,7 +575,10 @@ ${ctx.cellJson || "{}"}
 	// Register the openWalkthrough command handler
 	context.subscriptions.push(
 		vscode.commands.registerCommand(commands.Walkthrough, async () => {
-			await vscode.commands.executeCommand("workbench.action.openWalkthrough", `${context.extension.id}#ClineWalkthrough`)
+			await vscode.commands.executeCommand(
+				"workbench.action.openWalkthrough",
+				`${context.extension.id}#TarxCodeWalkthrough`,
+			)
 			telemetryService.captureButtonClick("command_openWalkthrough")
 		}),
 	)
@@ -599,7 +678,7 @@ function setupHostProvider(context: ExtensionContext) {
 	const createDiffView = () => new VscodeDiffViewProvider()
 	const createCommentReview = () => getVscodeCommentReviewController()
 	const createTerminalManager = () => new VscodeTerminalManager()
-	const outputChannel = vscode.window.createOutputChannel("Cline")
+	const outputChannel = vscode.window.createOutputChannel("TARX CODE")
 	context.subscriptions.push(outputChannel)
 
 	const getCallbackUrl = async () => `${vscode.env.uriScheme || "vscode"}://${context.extension.id}`
@@ -646,7 +725,14 @@ async function getBinaryLocation(name: string): Promise<string> {
 
 // This method is called when your extension is deactivated
 export async function deactivate() {
-	Logger.log("Cline extension deactivating, cleaning up resources...")
+	Logger.log("TARX CODE extension deactivating, cleaning up resources...")
+
+	// Sentry breadcrumb for deactivation
+	Sentry.addBreadcrumb({
+		category: "lifecycle",
+		message: "TARX Code extension deactivating",
+		level: "info",
+	})
 
 	// Stop periodic temp file cleanup
 	ClineTempManager.stopPeriodicCleanup()
@@ -667,7 +753,10 @@ export async function deactivate() {
 
 	clearOnboardingModelsCache()
 
-	Logger.log("Cline extension deactivated")
+	Logger.log("TARX CODE extension deactivated")
+
+	// Flush Sentry events before shutdown
+	await Sentry.close(2000)
 }
 
 // TODO: Find a solution for automatically removing DEV related content from production builds.

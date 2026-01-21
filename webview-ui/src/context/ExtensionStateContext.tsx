@@ -365,10 +365,15 @@ export const ExtensionStateContextProvider: React.FC<{
 							}
 
 							// Update welcome screen state based on API configuration if welcome view not in progress
+							console.log(
+								`[ExtensionState] welcomeViewCompleted=${newState.welcomeViewCompleted}, showWelcome=${showWelcome}`,
+							)
 							if (!newState.welcomeViewCompleted && !showWelcome) {
+								console.log("[ExtensionState] Setting showWelcome=true (welcome not completed)")
 								setShowWelcome(true)
 								setOnboardingModels(newState.onboardingModels)
 							} else if (newState.welcomeViewCompleted) {
+								console.log("[ExtensionState] Setting showWelcome=false (welcome completed)")
 								setShowWelcome(false)
 								setOnboardingModels(undefined)
 							}

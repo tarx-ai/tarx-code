@@ -1,9 +1,9 @@
 {
 	"name": "tarx-code",
-	"displayName": "TARX Code",
-	"description": "AI-powered coding assistant on TARX mesh - local-first, privacy-focused, no cloud dependencies",
+	"displayName": "TARX CODE",
+	"description": "AI-powered coding assistant powered by TARX SuperComputer",
 	"version": "1.0.0",
-	"icon": "assets/icons/icon.png",
+	"icon": "assets/tarx-logo.png",
 	"engines": {
 		"vscode": "^1.84.0"
 	},
@@ -14,9 +14,9 @@
 	"publisher": "tarx",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tarx/tarx-code"
+		"url": "https://github.com/tarx-ai/tarx-code"
 	},
-	"homepage": "https://tarx.ai",
+	"homepage": "https://tarx.com",
 	"categories": [
 		"AI",
 		"Chat",
@@ -27,15 +27,12 @@
 	],
 	"keywords": [
 		"tarx",
-		"local-first",
-		"mesh",
-		"llama",
+		"supercomputer",
 		"coding",
 		"agent",
 		"autonomous",
 		"ai",
-		"privacy",
-		"offline"
+		"assistant"
 	],
 	"activationEvents": [
 		"onLanguage",
@@ -45,8 +42,8 @@
 	"main": "./dist/extension.js",
 	"contributes": {
 		"icons": {
-			"cline-icon": {
-				"description": "cline",
+			"tarx-icon": {
+				"description": "TARX Code",
 				"default": {
 					"fontPath": "assets/icons/cline-bot.woff",
 					"fontCharacter": "\\e900"
@@ -55,38 +52,38 @@
 		},
 		"walkthroughs": [
 			{
-				"id": "ClineWalkthrough",
-				"title": "Meet Cline, your new coding partner",
-				"description": "Cline codes like a developer because it thinks like one. Here are 5 ways to put it to work:",
+				"id": "TarxCodeWalkthrough",
+				"title": "Welcome to TARX CODE",
+				"description": "AI-powered coding assistant powered by TARX SuperComputer. Here's how to get started:",
 				"steps": [
 					{
 						"id": "welcome",
-						"title": "Start with a Goal, Not Just a Prompt",
-						"description": "Tell Cline what you want to achieve. It plans, asks, and then codes, like a true partner.",
+						"title": "Getting Started",
+						"description": "TARX CODE requires the TARX desktop app to be running.",
 						"media": {
 							"markdown": "walkthrough/step1.md"
 						}
 					},
 					{
 						"id": "learn",
-						"title": "Let Cline Learn Your Codebase",
-						"description": "Point Cline to your project. It builds understanding to make smart, context-aware changes.",
+						"title": "Deep Codebase Intelligence",
+						"description": "TARX CODE analyzes your project structure to make smart, context-aware suggestions.",
 						"media": {
 							"markdown": "walkthrough/step2.md"
 						}
 					},
 					{
 						"id": "advanced-features",
-						"title": "Always Use the Best AI Models",
-						"description": "Cline empowers you with State-of-the-Art AI, connecting to top models (Anthropic, Gemini, OpenAI & more).",
+						"title": "Powered by SuperComputer",
+						"description": "AI coding assistant powered by the TARX SuperComputer.",
 						"media": {
 							"markdown": "walkthrough/step3.md"
 						}
 					},
 					{
 						"id": "mcp",
-						"title": "Extend with Powerful Tools (MCP)",
-						"description": "Connect to databases, APIs, or discover new capabilities in the MCP Marketplace.",
+						"title": "Extend with MCP Tools",
+						"description": "Connect to databases, APIs, or build custom tools with the Model Context Protocol.",
 						"media": {
 							"markdown": "walkthrough/step4.md"
 						}
@@ -94,7 +91,7 @@
 					{
 						"id": "getting-started",
 						"title": "You're Always in Control",
-						"description": "Review Cline's plans and diffs. Approve changes before they happen. No surprises.",
+						"description": "Review plans and diffs. Approve changes before they happen.",
 						"media": {
 							"markdown": "walkthrough/step5.md"
 						},
@@ -108,17 +105,17 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "claude-dev-ActivityBar",
-					"title": "TARX Code",
+					"id": "tarx-ActivityBar",
+					"title": "TARX CODE",
 					"icon": "assets/icons/icon.svg"
 				}
 			]
 		},
 		"views": {
-			"claude-dev-ActivityBar": [
+			"tarx-ActivityBar": [
 				{
 					"type": "webview",
-					"id": "claude-dev.SidebarProvider",
+					"id": "tarx.SidebarProvider",
 					"name": "",
 					"icon": "assets/icons/icon.svg"
 				}
@@ -126,117 +123,122 @@
 		},
 		"commands": [
 			{
-				"command": "cline.plusButtonClicked",
+				"command": "tarx.openSidebar",
+				"title": "TARX Code: Open",
+				"category": "TARX Code"
+			},
+			{
+				"command": "tarx.plusButtonClicked",
 				"title": "New Task",
 				"icon": "$(add)"
 			},
 			{
-				"command": "cline.mcpButtonClicked",
+				"command": "tarx.mcpButtonClicked",
 				"title": "MCP Servers",
 				"icon": "$(server)"
 			},
 			{
-				"command": "cline.historyButtonClicked",
+				"command": "tarx.historyButtonClicked",
 				"title": "History",
 				"icon": "$(history)"
 			},
 			{
-				"command": "cline.accountButtonClicked",
+				"command": "tarx.accountButtonClicked",
 				"title": "Account",
 				"icon": "$(account)"
 			},
 			{
-				"command": "cline.settingsButtonClicked",
+				"command": "tarx.settingsButtonClicked",
 				"title": "Settings",
 				"icon": "$(settings-gear)"
 			},
 			{
-				"command": "cline.dev.createTestTasks",
+				"command": "tarx.dev.createTestTasks",
 				"title": "Create Test Tasks",
-				"category": "Cline",
-				"when": "cline.isDevMode"
+				"category": "TARX Code",
+				"when": "tarx.isDevMode"
 			},
 			{
-				"command": "cline.dev.expireMcpOAuthTokens",
+				"command": "tarx.dev.expireMcpOAuthTokens",
 				"title": "Expire MCP OAuth Tokens (for testing)",
-				"category": "Cline",
-				"when": "cline.isDevMode"
+				"category": "TARX Code",
+				"when": "tarx.isDevMode"
 			},
 			{
-				"command": "cline.addToChat",
-				"title": "Add to Cline",
-				"category": "Cline"
+				"command": "tarx.addToChat",
+				"title": "Add to TARX Code",
+				"category": "TARX Code"
 			},
 			{
-				"command": "cline.addTerminalOutputToChat",
-				"title": "Add to Cline",
-				"category": "Cline"
+				"command": "tarx.addTerminalOutputToChat",
+				"title": "Add to TARX Code",
+				"category": "TARX Code"
 			},
 			{
-				"command": "cline.focusChatInput",
+				"command": "tarx.focusChatInput",
 				"title": "Jump to Chat Input",
-				"category": "Cline"
+				"category": "TARX Code"
 			},
 			{
-				"command": "cline.generateGitCommitMessage",
-				"title": "Generate Commit Message with Cline",
-				"category": "Cline",
-				"icon": "$(cline-icon)"
+				"command": "tarx.generateGitCommitMessage",
+				"title": "Generate Commit Message with TARX Code",
+				"category": "TARX Code",
+				"icon": "$(tarx-icon)"
 			},
 			{
-				"command": "cline.abortGitCommitMessage",
-				"title": "Generate Commit Message with Cline - Stop",
-				"category": "Cline",
+				"command": "tarx.abortGitCommitMessage",
+				"title": "Generate Commit Message with TARX Code - Stop",
+				"category": "TARX Code",
 				"icon": "$(debug-stop)"
 			},
 			{
-				"command": "cline.explainCode",
-				"title": "Explain with Cline",
-				"category": "Cline"
+				"command": "tarx.explainCode",
+				"title": "Explain with TARX Code",
+				"category": "TARX Code"
 			},
 			{
-				"command": "cline.improveCode",
-				"title": "Improve with Cline",
-				"category": "Cline"
+				"command": "tarx.improveCode",
+				"title": "Improve with TARX Code",
+				"category": "TARX Code"
 			},
 			{
-				"command": "cline.jupyterGenerateCell",
-				"title": "Generate Jupyter Cell with Cline",
-				"category": "Cline",
+				"command": "tarx.jupyterGenerateCell",
+				"title": "Generate Jupyter Cell with TARX Code",
+				"category": "TARX Code",
 				"icon": "$(sparkle)"
 			},
 			{
-				"command": "cline.jupyterExplainCell",
-				"title": "Explain Jupyter Cell with Cline",
-				"category": "Cline",
+				"command": "tarx.jupyterExplainCell",
+				"title": "Explain Jupyter Cell with TARX Code",
+				"category": "TARX Code",
 				"icon": "$(question)"
 			},
 			{
-				"command": "cline.jupyterImproveCell",
-				"title": "Improve Jupyter Cell with Cline",
-				"category": "Cline",
+				"command": "tarx.jupyterImproveCell",
+				"title": "Improve Jupyter Cell with TARX Code",
+				"category": "TARX Code",
 				"icon": "$(lightbulb)"
 			},
 			{
-				"command": "cline.openWalkthrough",
+				"command": "tarx.openWalkthrough",
 				"title": "Open Walkthrough",
-				"category": "Cline"
+				"category": "TARX Code"
 			},
 			{
-				"command": "cline.reconstructTaskHistory",
+				"command": "tarx.reconstructTaskHistory",
 				"title": "Reconstruct Task History",
-				"category": "Cline"
+				"category": "TARX Code"
 			},
 			{
-				"command": "cline.reviewComment.reply",
+				"command": "tarx.reviewComment.reply",
 				"title": "Reply",
-				"category": "Cline",
+				"category": "TARX Code",
 				"enablement": "!commentIsEmpty"
 			},
 			{
-				"command": "cline.reviewComment.addToChat",
-				"title": "Add to Cline Chat",
-				"category": "Cline",
+				"command": "tarx.reviewComment.addToChat",
+				"title": "Add to TARX Code Chat",
+				"category": "TARX Code",
 				"icon": "$(link-external)"
 			}
 		],
@@ -244,10 +246,10 @@
 			{
 				"command": "editor.action.submitComment",
 				"key": "enter",
-				"when": "commentEditorFocused && commentController == cline-ai-review && !commentIsEmpty"
+				"when": "commentEditorFocused && commentController == tarx-ai-review && !commentIsEmpty"
 			},
 			{
-				"command": "cline.addToChat",
+				"command": "tarx.addToChat",
 				"key": "cmd+'",
 				"mac": "cmd+'",
 				"win": "ctrl+'",
@@ -255,11 +257,11 @@
 				"when": "editorHasSelection"
 			},
 			{
-				"command": "cline.generateGitCommitMessage",
+				"command": "tarx.generateGitCommitMessage",
 				"when": "config.git.enabled && scmProvider == git"
 			},
 			{
-				"command": "cline.focusChatInput",
+				"command": "tarx.focusChatInput",
 				"key": "cmd+'",
 				"mac": "cmd+'",
 				"win": "ctrl+'",
@@ -270,131 +272,116 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "cline.plusButtonClicked",
+					"command": "tarx.plusButtonClicked",
 					"group": "navigation@1",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == tarx.SidebarProvider"
 				},
 				{
-					"command": "cline.mcpButtonClicked",
+					"command": "tarx.mcpButtonClicked",
 					"group": "navigation@2",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == tarx.SidebarProvider"
 				},
 				{
-					"command": "cline.historyButtonClicked",
+					"command": "tarx.historyButtonClicked",
 					"group": "navigation@3",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == tarx.SidebarProvider"
 				},
 				{
-					"command": "cline.accountButtonClicked",
+					"command": "tarx.accountButtonClicked",
 					"group": "navigation@5",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == tarx.SidebarProvider"
 				},
 				{
-					"command": "cline.settingsButtonClicked",
+					"command": "tarx.settingsButtonClicked",
 					"group": "navigation@6",
-					"when": "view == claude-dev.SidebarProvider"
+					"when": "view == tarx.SidebarProvider"
 				}
 			],
 			"editor/context": [
 				{
-					"command": "cline.addToChat",
+					"command": "tarx.addToChat",
 					"group": "navigation",
 					"when": "editorHasSelection"
 				}
 			],
 			"terminal/context": [
 				{
-					"command": "cline.addTerminalOutputToChat",
+					"command": "tarx.addTerminalOutputToChat",
 					"group": "navigation"
 				}
 			],
 			"scm/title": [
 				{
-					"command": "cline.generateGitCommitMessage",
+					"command": "tarx.generateGitCommitMessage",
 					"group": "navigation",
-					"when": "config.git.enabled && scmProvider == git && !cline.isGeneratingCommit"
+					"when": "config.git.enabled && scmProvider == git && !tarx.isGeneratingCommit"
 				},
 				{
-					"command": "cline.abortGitCommitMessage",
+					"command": "tarx.abortGitCommitMessage",
 					"group": "navigation",
-					"when": "config.git.enabled && scmProvider == git && cline.isGeneratingCommit"
+					"when": "config.git.enabled && scmProvider == git && tarx.isGeneratingCommit"
 				}
 			],
 			"notebook/toolbar": [
 				{
-					"command": "cline.jupyterGenerateCell",
+					"command": "tarx.jupyterGenerateCell",
 					"group": "navigation/add@1",
 					"when": "notebookType == 'jupyter-notebook'"
 				}
 			],
 			"notebook/cell/title": [
 				{
-					"command": "cline.jupyterExplainCell",
+					"command": "tarx.jupyterExplainCell",
 					"group": "inline@1",
 					"when": "notebookType == 'jupyter-notebook'"
 				},
 				{
-					"command": "cline.jupyterImproveCell",
+					"command": "tarx.jupyterImproveCell",
 					"group": "inline@2",
 					"when": "notebookType == 'jupyter-notebook'"
 				}
 			],
 			"commandPalette": [
 				{
-					"command": "cline.generateGitCommitMessage",
-					"when": "config.git.enabled && !cline.isGeneratingCommit"
+					"command": "tarx.generateGitCommitMessage",
+					"when": "config.git.enabled && !tarx.isGeneratingCommit"
 				},
 				{
-					"command": "cline.abortGitCommitMessage",
-					"when": "config.git.enabled && cline.isGeneratingCommit"
+					"command": "tarx.abortGitCommitMessage",
+					"when": "config.git.enabled && tarx.isGeneratingCommit"
 				},
 				{
-					"command": "cline.reviewComment.reply",
+					"command": "tarx.reviewComment.reply",
 					"when": "false"
 				}
 			],
 			"comments/commentThread/context": [
 				{
-					"command": "cline.reviewComment.reply",
+					"command": "tarx.reviewComment.reply",
 					"group": "inline",
-					"when": "commentController == cline-ai-review"
+					"when": "commentController == tarx-ai-review"
 				}
 			],
 			"comments/commentThread/title": [
 				{
-					"command": "cline.reviewComment.addToChat",
+					"command": "tarx.reviewComment.addToChat",
 					"group": "inline",
-					"when": "commentController == cline-ai-review"
+					"when": "commentController == tarx-ai-review"
 				}
 			]
 		},
 		"configuration": {
-			"title": "TARX Code",
+			"title": "TARX CODE",
 			"properties": {
-				"tarxCode.llamaServerUrl": {
+				"tarxCode.apiUrl": {
 					"type": "string",
 					"default": "http://localhost:11435",
-					"description": "URL for local llama-server instance"
-				},
-				"tarxCode.meshApiUrl": {
-					"type": "string",
-					"default": "http://localhost:11436",
-					"description": "URL for TARX mesh API"
-				},
-				"tarxCode.enableMeshRouting": {
-					"type": "boolean",
-					"default": true,
-					"description": "Route complex queries through TARX mesh network when available"
+					"description": "TARX SuperComputer API endpoint"
 				},
 				"tarxCode.enableCloudFallback": {
 					"type": "boolean",
 					"default": false,
-					"description": "[Enterprise] Enable cloud API fallback when local/mesh unavailable"
-				},
-				"tarxCode.model": {
-					"type": "string",
-					"default": "tx-16g",
-					"description": "Model to use for inference (e.g., tx-8g, tx-16g)"
+					"description": "[Enterprise] Enable cloud API fallback"
 				}
 			}
 		}
@@ -554,6 +541,7 @@
 		"@sap-ai-sdk/ai-api": "^2.1.0",
 		"@sap-ai-sdk/orchestration": "^2.1.0",
 		"@sap-cloud-sdk/connectivity": "^4.2.0",
+		"@sentry/node": "^10.35.0",
 		"@streamparser/json": "^0.0.22",
 		"@tailwindcss/vite": "^4.1.14",
 		"@types/uuid": "^10.0.0",

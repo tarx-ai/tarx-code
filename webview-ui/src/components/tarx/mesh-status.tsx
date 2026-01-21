@@ -1,36 +1,35 @@
 /**
- * TARX Mesh Status Badge
+ * TARX SuperComputer Status Badge
  *
- * Shows the current status of the TARX mesh network connection.
- * Displays peer count when connected, "Local only" when mesh is unavailable.
+ * Shows the current status of the TARX SuperComputer connection.
+ * Displays "Connected to SuperComputer" when connected, simplified messaging when not.
  */
 
 import { useCallback, useEffect, useState } from "react"
 
-interface MeshStatus {
+interface SuperComputerStatus {
 	connected: boolean
 	peerCount: number
 	lastChecked: number
 }
 
-const MESH_API_URL = "http://localhost:11436"
+const TARX_API_URL = "http://localhost:11435"
 const CHECK_INTERVAL_MS = 10000 // 10 seconds
 
 export function MeshStatusBadge() {
-	const [status, setStatus] = useState<MeshStatus | null>(null)
+	const [status, setStatus] = useState<SuperComputerStatus | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 
-	const checkMeshStatus = useCallback(async () => {
+	const checkStatus = useCallback(async () => {
 		try {
-			const response = await fetch(`${MESH_API_URL}/mesh/status`, {
+			const response = await fetch(`${TARX_API_URL}/health`, {
 				signal: AbortSignal.timeout(3000),
 			})
 
 			if (response.ok) {
-				const data = await response.json()
 				setStatus({
-					connected: data.running ?? false,
-					peerCount: data.peerCount ?? data.peer_count ?? 0,
+					connected: true,
+					peerCount: 1,
 					lastChecked: Date.now(),
 				})
 			} else {
@@ -52,10 +51,10 @@ export function MeshStatusBadge() {
 	}, [])
 
 	useEffect(() => {
-		checkMeshStatus()
-		const interval = setInterval(checkMeshStatus, CHECK_INTERVAL_MS)
+		checkStatus()
+		const interval = setInterval(checkStatus, CHECK_INTERVAL_MS)
 		return () => clearInterval(interval)
-	}, [checkMeshStatus])
+	}, [checkStatus])
 
 	if (isLoading) {
 		return (
@@ -78,14 +77,14 @@ export function MeshStatusBadge() {
 						backgroundColor: "var(--vscode-charts-yellow)",
 					}}
 				/>
-				Checking...
+				Connecting...
 			</div>
 		)
 	}
 
 	if (!status) return null
 
-	const isConnected = status.connected && status.peerCount > 0
+	const isConnected = status.connected
 
 	return (
 		<div
@@ -100,20 +99,16 @@ export function MeshStatusBadge() {
 				fontSize: "11px",
 				cursor: "default",
 			}}
-			title={
-				isConnected
-					? `Connected to TARX mesh with ${status.peerCount} peer(s)`
-					: "Mesh unavailable - using local llama-server"
-			}>
+			title={isConnected ? "Connected to TARX SuperComputer" : "TARX desktop app not detected"}>
 			<span
 				style={{
 					width: "6px",
 					height: "6px",
 					borderRadius: "50%",
-					backgroundColor: isConnected ? "var(--vscode-charts-green, #4caf50)" : "var(--vscode-charts-gray, #9e9e9e)",
+					backgroundColor: isConnected ? "var(--vscode-charts-green, #4caf50)" : "var(--vscode-charts-red, #f44336)",
 				}}
 			/>
-			{isConnected ? `${status.peerCount} peer${status.peerCount !== 1 ? "s" : ""}` : "Local only"}
+			{isConnected ? "SuperComputer" : "Not Connected"}
 		</div>
 	)
 }
@@ -126,13 +121,6 @@ export function MeshStatusIndicator() {
 				alignItems: "center",
 				gap: "8px",
 			}}>
-			<span
-				style={{
-					fontSize: "12px",
-					color: "var(--vscode-descriptionForeground)",
-				}}>
-				TARX
-			</span>
 			<MeshStatusBadge />
 		</div>
 	)

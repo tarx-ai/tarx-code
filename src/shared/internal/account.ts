@@ -1,16 +1,16 @@
 /**
- * List of email domains that are considered trusted testers for Cline.
+ * List of email domains that are considered trusted testers for TARX.
  */
-const CLINE_TRUSTED_TESTER_DOMAINS = ["fibilabs.tech"]
+const TARX_TRUSTED_TESTER_DOMAINS = ["tarx.com"]
 
 /**
- * Checks if the given email belongs to a Cline bot user.
- * E.g. Emails ending with @cline.bot
+ * Checks if the given email belongs to a TARX internal user.
+ * E.g. Emails ending with @tarx.com
  */
-export function isClineBotUser(email: string): boolean {
-	return email.endsWith("@cline.bot")
+export function isTarxInternalUser(email: string): boolean {
+	return email.endsWith("@tarx.com")
 }
 
-export function isClineInternalTester(email: string): boolean {
-	return isClineBotUser(email) || CLINE_TRUSTED_TESTER_DOMAINS.some((d) => email.endsWith(`@${d}`))
+export function isTarxInternalTester(email: string): boolean {
+	return isTarxInternalUser(email) || TARX_TRUSTED_TESTER_DOMAINS.some((d) => email.endsWith(`@${d}`))
 }

@@ -95,18 +95,14 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ open, onClose, ver
 							</div>
 						</li>
 						<li className="mb-2">
-							<strong>Skills:</strong> Extend Cline with instruction sets for specialized tasks.{" "}
-							<a
-								href="https://docs.cline.bot/features/skills"
-								style={{ color: "var(--vscode-textLink-foreground)" }}>
+							<strong>Skills:</strong> Extend TARX with instruction sets for specialized tasks.{" "}
+							<a href="https://tarx.com/docs/skills" style={{ color: "var(--vscode-textLink-foreground)" }}>
 								Learn more
 							</a>
 						</li>
 						<li>
-							<strong>Web Search:</strong> Improved websearch tooling in Cline provider.{" "}
-							<a
-								href="https://docs.cline.bot/features/web-tools"
-								style={{ color: "var(--vscode-textLink-foreground)" }}>
+							<strong>Web Search:</strong> Improved websearch tooling in TARX.{" "}
+							<a href="https://tarx.com/docs/web-tools" style={{ color: "var(--vscode-textLink-foreground)" }}>
 								Learn more
 							</a>
 						</li>

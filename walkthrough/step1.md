@@ -1,7 +1,11 @@
-# Beyond Autocomplete: True Agentic Planning
+# Getting Started with TARX CODE
 
-**Cline analyzes your request, explores your code, and presents a clear plan.**
+**TARX CODE requires the TARX desktop app to be running.**
 
-Watch Cline break down complex tasks, ask clarifying questions, and outline its approach. Understand the 'why' before any code is written, ensuring changes align with your architecture and intent.
+1. Download TARX from [tarx.com/download](https://tarx.com/download)
+2. Launch the TARX desktop app
+3. Open TARX CODE panel in VS Code
 
-![Cline planning demonstration](https://storage.googleapis.com/cline_public_images/docs/assets/cline-plan-hifi-1_compress.webp)
+Once TARX is running, TARX CODE will automatically connect to the SuperComputer and you're ready to start coding.
+
+![Getting Started](https://storage.googleapis.com/cline_public_images/docs/assets/cline-plan-hifi-1_compress.webp)

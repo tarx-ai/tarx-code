@@ -1,10 +1,8 @@
 /**
- * TARX Mesh Provider
+ * TARX SuperComputer Provider
  *
- * Implements Cline's ApiHandler interface to connect to local llama-server
- * and optionally the TARX mesh network for distributed inference.
- *
- * Local-first: No cloud fallback by default (enterprise toggle available)
+ * Implements the ApiHandler interface to connect to TARX SuperComputer
+ * for AI-powered coding assistance.
  */
 
 import { type ModelInfo, openAiModelInfoSaneDefaults } from "@shared/api"
@@ -141,7 +139,8 @@ export class TarxMeshHandler implements ApiHandler {
 					if (line.startsWith("data: ") && !line.includes("[DONE]")) {
 						try {
 							const json = JSON.parse(line.slice(6))
-							const delta = json.choices?.[0]?.delta?.content
+							// Handle both content and reasoning_content (some models use reasoning_content)
+							const delta = json.choices?.[0]?.delta?.content || json.choices?.[0]?.delta?.reasoning_content
 
 							if (delta) {
 								outputTokens++

@@ -279,4 +279,7 @@ service UiService {
 
   // Opens the Cline walkthrough
   rpc openWalkthrough(EmptyRequest) returns (Empty);
+
+  // Checks if TARX app is running and healthy
+  rpc checkTarxHealth(EmptyRequest) returns (Boolean);
 }

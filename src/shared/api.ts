@@ -2,6 +2,7 @@ import { ApiFormat } from "./proto/cline/models"
 import { ApiHandlerSettings } from "./storage/state-keys"
 
 export type ApiProvider =
+	| "tarx-mesh"
 	| "anthropic"
 	| "claude-code"
 	| "openrouter"
@@ -44,7 +45,7 @@ export type ApiProvider =
 	| "hicap"
 	| "nousResearch"
 
-export const DEFAULT_API_PROVIDER = "openrouter" as ApiProvider
+export const DEFAULT_API_PROVIDER = "tarx-mesh" as ApiProvider
 
 export interface ApiHandlerOptions extends Partial<ApiHandlerSettings> {
 	ulid?: string // Used to identify the task in API requests

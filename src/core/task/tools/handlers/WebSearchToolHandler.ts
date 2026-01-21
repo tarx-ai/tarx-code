@@ -7,7 +7,6 @@ import { buildClineExtraHeaders } from "@/services/EnvUtils"
 import { featureFlagsService } from "@/services/feature-flags"
 import { telemetryService } from "@/services/telemetry"
 import { parsePartialArrayString } from "@/shared/array"
-import { CLINE_ACCOUNT_AUTH_ERROR_MESSAGE } from "@/shared/ClineAccount"
 import { getAxiosSettings } from "@/shared/net"
 import { ToolUse } from "../../../assistant-message"
 import { formatResponse } from "../../../prompts/responses"
@@ -151,8 +150,12 @@ export class WebSearchToolHandler implements IFullyManagedTool {
 			const baseUrl = ClineEnv.config().apiBaseUrl
 			const authToken = await AuthService.getInstance().getAuthToken()
 
+			// TARX: Web search requires cloud auth - skip gracefully if not available
 			if (!authToken) {
-				throw new Error(CLINE_ACCOUNT_AUTH_ERROR_MESSAGE)
+				return formatResponse.toolResult(
+					"Web search is not available in local-only mode. This feature requires TARX cloud services.",
+					[],
+				)
 			}
 
 			const requestBody: {

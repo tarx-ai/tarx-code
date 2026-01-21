@@ -9,11 +9,11 @@ export function getConfiguredProviders(apiConfiguration: ApiConfiguration | unde
 	const configured: ApiProvider[] = []
 
 	if (!apiConfiguration) {
-		return ["cline"] // Cline is always available
+		return ["tarx-mesh"] // TARX is always available
 	}
 
-	// Cline - always available (uses account-based auth)
-	configured.push("cline")
+	// TARX Mesh - always available (local inference)
+	configured.push("tarx-mesh")
 
 	// Anthropic - requires API key
 	if (apiConfiguration.apiKey) {

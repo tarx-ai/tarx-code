@@ -1,7 +1,12 @@
-# No Black Box: Full Visibility & Control
+# You're Always in Control
 
-**Cline operates with complete transparency, showing you every file read and every proposed diff.**
+**TARX CODE operates with complete transparency — review every action before it happens.**
 
-Understand exactly what Cline is doing and why—no obfuscation. Review all actions and approve changes before they're made. Cline uses checkpoints, allowing you to easily revert if needed, maintaining full control over your codebase. With BYO-key, you also have clear cost transparency.
+- **See every file read** — Know exactly what context is being used
+- **Review all diffs** — Approve changes before they're applied
+- **Checkpoint & restore** — Roll back to any point if needed
+- **No surprises** — Human-in-the-loop for every operation
 
-![Cline Transparency Demo](https://storage.googleapis.com/cline_public_images/docs/assets/clines-transparency-hifi-5_compress.webp)
+Your code, your control.
+
+![Full Transparency](https://storage.googleapis.com/cline_public_images/docs/assets/clines-transparency-hifi-5_compress.webp)

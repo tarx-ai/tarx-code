@@ -157,7 +157,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 							<p className="text-xs mt-1 mb-0">
 								<span className="text-[var(--vscode-errorForeground)]">Experimental: </span>{" "}
 								<span className="text-description">
-									Allows Cline to spawn subprocesses to handle focused tasks like exploring large codebases,
+									Allows TARX to spawn subprocesses to handle focused tasks like exploring large codebases,
 									keeping your main context clean.
 								</span>
 							</p>
@@ -312,7 +312,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 							Enables advanced context management system which uses LLM based condensing for next-gen models.{" "}
 							<a
 								className="text-(--vscode-textLink-foreground) hover:text-(--vscode-textLink-activeForeground)"
-								href="https://docs.cline.bot/features/auto-compact"
+								href="https://tarx.com/docs/auto-compact"
 								rel="noopener noreferrer"
 								target="_blank">
 								Learn more
@@ -327,10 +327,10 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 									const checked = e.target.checked === true
 									updateSetting("clineWebToolsEnabled", checked)
 								}}>
-								Enable Cline Web Tools
+								Enable TARX Web Tools
 							</VSCodeCheckbox>
 							<p className="text-xs text-(--vscode-descriptionForeground)">
-								Enables websearch and webfetch tools while using the Cline provider.
+								Enables websearch and webfetch tools while using TARX.
 							</p>
 						</div>
 					)}
@@ -478,7 +478,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 						</Tooltip>
 
 						<p className="text-xs text-(--vscode-errorForeground)">
-							EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. Cline will
+							EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. TARX will
 							automatically approve all actions without asking. Use with extreme caution.
 						</p>
 					</div>

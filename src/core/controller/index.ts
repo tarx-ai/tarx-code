@@ -497,7 +497,8 @@ export class Controller {
 		try {
 			await this.authService.handleAuthCallback(customToken, provider ? provider : "google")
 
-			const clineProvider: ApiProvider = "cline"
+			// TARX: Use tarx-mesh provider instead of cline
+			const tarxProvider: ApiProvider = "tarx-mesh"
 
 			// Get current settings to determine how to update providers
 			const planActSeparateModelsSetting = this.stateManager.getGlobalSettingsKey("planActSeparateModelsSetting")
@@ -512,14 +513,14 @@ export class Controller {
 			if (planActSeparateModelsSetting) {
 				// Only update the current mode's provider
 				if (currentMode === "plan") {
-					updatedConfig.planModeApiProvider = clineProvider
+					updatedConfig.planModeApiProvider = tarxProvider
 				} else {
-					updatedConfig.actModeApiProvider = clineProvider
+					updatedConfig.actModeApiProvider = tarxProvider
 				}
 			} else {
 				// Update both modes to keep them in sync
-				updatedConfig.planModeApiProvider = clineProvider
-				updatedConfig.actModeApiProvider = clineProvider
+				updatedConfig.planModeApiProvider = tarxProvider
+				updatedConfig.actModeApiProvider = tarxProvider
 			}
 
 			// Update the API configuration through cache service
@@ -539,7 +540,7 @@ export class Controller {
 			console.error("Failed to handle auth callback:", error)
 			HostProvider.window.showMessage({
 				type: ShowMessageType.ERROR,
-				message: "Failed to log in to Cline",
+				message: "Failed to authenticate with TARX",
 			})
 			// Even on login failure, we preserve any existing tokens
 			// Only clear tokens on explicit logout

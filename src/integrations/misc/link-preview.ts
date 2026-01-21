@@ -22,7 +22,7 @@ export async function fetchOpenGraphData(url: string): Promise<OpenGraphData> {
 			url: url,
 			timeout: 5000,
 			headers: {
-				"user-agent": "Mozilla/5.0 (compatible; VSCodeExtension/1.0; +https://cline.bot)",
+				"user-agent": "Mozilla/5.0 (compatible; VSCodeExtension/1.0; +https://tarx.com)",
 			},
 			onlyGetOpenGraphInfo: false, // Get all metadata, not just Open Graph
 			fetchOptions: {
@@ -93,7 +93,7 @@ export async function detectImageUrl(url: string): Promise<boolean> {
 	try {
 		const response = await axios.head(url, {
 			headers: {
-				"User-Agent": "Mozilla/5.0 (compatible; VSCodeExtension/1.0; +https://cline.bot)",
+				"User-Agent": "Mozilla/5.0 (compatible; VSCodeExtension/1.0; +https://tarx.com)",
 			},
 			timeout: 3000,
 			...getAxiosSettings(),

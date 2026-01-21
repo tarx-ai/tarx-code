@@ -37,8 +37,8 @@ export class VercelAIGatewayHandler implements ApiHandler {
 					baseURL: "https://ai-gateway.vercel.sh/v1",
 					apiKey: this.options.vercelAiGatewayApiKey,
 					defaultHeaders: {
-						"http-referer": "https://cline.bot",
-						"x-title": "Cline",
+						"http-referer": "https://tarx.com",
+						"x-title": "TARX Code",
 					},
 					fetch, // Use configured fetch with proxy support
 				})

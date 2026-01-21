@@ -141,11 +141,12 @@ export function transformRemoteConfigToStateShape(remoteConfig: RemoteConfig): P
 		}
 	}
 
+	// TARX: Map Cline settings to tarx-mesh provider
 	const clineSettings = remoteConfig.providerSettings?.Cline
 	if (clineSettings) {
-		transformed.planModeApiProvider = "cline"
-		transformed.actModeApiProvider = "cline"
-		providers.push("cline")
+		transformed.planModeApiProvider = "tarx-mesh"
+		transformed.actModeApiProvider = "tarx-mesh"
+		providers.push("tarx-mesh")
 	}
 
 	// Map LiteLLM provider settings

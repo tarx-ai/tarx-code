@@ -15,6 +15,8 @@ export enum BannerActionType {
 	SetModel = "set-model",
 	/** Trigger CLI installation flow */
 	InstallCli = "install-cli",
+	/** Enable TARX SuperComputer mode */
+	EnableSuperComputer = "enable-supercomputer",
 }
 
 /**
@@ -50,8 +52,8 @@ export interface BannerCardData {
 	 */
 	platforms?: ("windows" | "mac" | "linux")[]
 
-	/** Only show to Cline users */
-	isClineUserOnly?: boolean
+	/** Only show to TARX users */
+	isTarxUserOnly?: boolean
 }
 
 /**
@@ -78,75 +80,39 @@ export interface BannerAction {
 
 /**
  * The list of predefined banner config rendered by the Welcome Section UI.
- * TODO: Backend would return a similar JSON structure in the future which we will replace this with.
+ * TARX-specific banners for Local and SuperComputer modes.
  */
 export const BANNER_DATA: BannerCardData[] = [
+	// TARX Local - Always On
+	{
+		id: "tarx-local-intro-v1",
+		icon: "cpu",
+		title: "TARX Local — Always On",
+		description:
+			"Your local AI coding assistant runs entirely on your machine. Zero cloud latency, complete privacy, and unlimited usage. Powered by TX-16G model optimized for coding tasks.",
+	},
+
+	// TARX SuperComputer
+	{
+		id: "tarx-supercomputer-intro-v1",
+		icon: "network",
+		title: "TARX SuperComputer",
+		description:
+			"Tap into the distributed P2P network for complex tasks. Access TX-M-72B and larger models when you need extra power. Toggle on to join the mesh.",
+		actions: [
+			{
+				title: "Enable SuperComputer",
+				action: BannerActionType.EnableSuperComputer,
+			},
+		],
+	},
+
 	// Info banner with inline link
 	{
 		id: "info-banner-v1",
 		icon: "lightbulb",
-		title: "Use Cline in Right Sidebar",
+		title: "Use TARX Code in Right Sidebar",
 		description:
-			"For the best experience, drag the Cline icon to your right sidebar. This keeps your file explorer and editor visible while you chat with Cline, making it easier to navigate your codebase and see changes in real-time. [See how →](https://docs.cline.bot/features/customization/opening-cline-in-sidebar)",
-	},
-
-	// Announcement with conditional actions based on user auth state
-	{
-		id: "new-model-opus-4-5-cline-users",
-		icon: "megaphone",
-		title: "Claude Opus 4.5 Now Available",
-		description: "State-of-the-art performance at 3x lower cost than Opus 4.1. Available now in the Cline provider.",
-		actions: [
-			{
-				title: "Try Now",
-				action: BannerActionType.SetModel,
-				arg: "anthropic/claude-opus-4.5",
-			},
-		],
-		isClineUserOnly: true, // Only Cline users see this
-	},
-
-	{
-		id: "new-model-opus-4-5-non-cline-users",
-		icon: "megaphone",
-		title: "Claude Opus 4.5 Now Available",
-		description: "State-of-the-art performance at 3x lower cost than Opus 4.1. Available now in the Cline provider.",
-		actions: [
-			{
-				title: "Get Started",
-				action: BannerActionType.ShowAccount,
-			},
-		],
-		isClineUserOnly: false, // Only non-Cline users see this
-	},
-
-	// Platform-specific banner (macOS/Linux)
-	{
-		id: "cli-install-unix-v1",
-		icon: "terminal",
-		title: "CLI & Subagents Available",
-		platforms: ["mac", "linux"] satisfies BannerCardData["platforms"],
-		description:
-			"Use Cline in your terminal and enable subagent capabilities. [Learn more](https://docs.cline.bot/cline-cli/overview)",
-		actions: [
-			{
-				title: "Install",
-				action: BannerActionType.InstallCli,
-			},
-			{
-				title: "Enable Subagents",
-				action: BannerActionType.ShowFeatureSettings,
-			},
-		],
-	},
-
-	// Platform-specific banner (Windows)
-	{
-		id: "cli-info-windows-v1",
-		icon: "terminal",
-		title: "Cline CLI Info",
-		platforms: ["windows"] satisfies BannerCardData["platforms"],
-		description:
-			"Available for macOS and Linux. Coming soon to other platforms. [Learn more](https://docs.cline.bot/cline-cli/overview)",
+			"For the best experience, drag the TARX icon to your right sidebar. This keeps your file explorer and editor visible while you chat with TARX, making it easier to navigate your codebase and see changes in real-time.",
 	},
 ]

@@ -8,16 +8,16 @@ import { ShowMessageType } from "@/shared/proto/host/window"
 import { Controller } from ".."
 
 /**
- * Handles the installation of missing dependencies with Cline
+ * Handles the installation of missing dependencies with TARX
  */
-async function handleInstallWithCline(
+async function handleInstallWithTarx(
 	controller: Controller,
 	dependencyName: string,
 	installCommand: string,
 	platform: string,
 ): Promise<void> {
 	const platformName = platform === "darwin" ? "macOS" : platform === "win32" ? "Windows" : "Linux"
-	const installTask = `Please install ${dependencyName} for voice recording on ${platformName}.\n\nRun this command:\n\`\`\`bash\n${installCommand}\n\`\`\`\n\nThis will enable voice recording functionality in Cline.`
+	const installTask = `Please install ${dependencyName} for voice recording on ${platformName}.\n\nRun this command:\n\`\`\`bash\n${installCommand}\n\`\`\`\n\nThis will enable voice recording functionality in TARX.`
 
 	// Clear any existing task and start the installation task
 	await controller.clearTask()
@@ -47,18 +47,18 @@ async function handleMissingDependency(
 	platform: string,
 	config: (typeof AUDIO_PROGRAM_CONFIG)[keyof typeof AUDIO_PROGRAM_CONFIG],
 ): Promise<void> {
-	const installWithCline = "Install with Cline"
+	const installWithTarx = "Install with TARX"
 	const installManually = "Copy Command"
 	const dismiss = "Dismiss"
 
 	const action = await HostProvider.window.showMessage({
 		type: ShowMessageType.INFORMATION,
 		message: `${config.dependencyName} is required for voice recording. ${config.installDescription}`,
-		options: { items: [installWithCline, installManually, dismiss] },
+		options: { items: [installWithTarx, installManually, dismiss] },
 	})
 
-	if (action.selectedOption === installWithCline) {
-		await handleInstallWithCline(controller, config.dependencyName, config.installCommand, platform)
+	if (action.selectedOption === installWithTarx) {
+		await handleInstallWithTarx(controller, config.dependencyName, config.installCommand, platform)
 	} else if (action.selectedOption === installManually) {
 		await handleCopyCommand(config.installCommand)
 	}
@@ -66,19 +66,16 @@ async function handleMissingDependency(
 }
 
 /**
- * Handles sign-in errors for dictation
+ * Handles errors for dictation - TARX is local-first, no sign-in required
  */
-async function handleSignInError(controller: Controller, errorMessage: string): Promise<void> {
-	const signInAction = "Sign in to Cline"
-	const action = await HostProvider.window.showMessage({
+async function handleDictationError(_controller: Controller, errorMessage: string): Promise<void> {
+	// TARX is local-first - dictation should work without authentication
+	// Show error with helpful message about TARX app
+	await HostProvider.window.showMessage({
 		type: ShowMessageType.ERROR,
-		message: `Voice recording error: ${errorMessage}`,
-		options: { items: [signInAction] },
+		message: `Voice recording error: ${errorMessage}. Make sure the TARX app is running.`,
+		options: { items: [] },
 	})
-
-	if (action.selectedOption === signInAction) {
-		await controller.authService.createAuthRequest()
-	}
 }
 
 /**
@@ -111,11 +108,8 @@ export const startRecording = async (controller: Controller): Promise<RecordingR
 	const taskId = controller.task?.taskId
 
 	try {
-		// Verify user authentication
-		const userInfo = controller.authService.getInfo()
-		if (!userInfo?.user?.uid) {
-			throw new Error("Please sign in to your Cline Account to use Dictation.")
-		}
+		// TARX is local-first - no authentication required for dictation
+		// Just attempt to start recording directly
 
 		// Attempt to start recording
 		const result = await audioRecordingService.startRecording()
@@ -146,14 +140,9 @@ export const startRecording = async (controller: Controller): Promise<RecordingR
 		console.error("Error starting recording:", error)
 		const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
 
-		// Handle different error types
-		if (errorMessage.includes("sign in")) {
-			// Don't await - show dialog asynchronously so frontend gets immediate response
-			handleSignInError(controller, errorMessage)
-		} else {
-			// Don't await - show dialog asynchronously so frontend gets immediate response
-			showGenericError(errorMessage)
-		}
+		// Handle errors - TARX is local-first, no sign-in needed
+		// Don't await - show dialog asynchronously so frontend gets immediate response
+		handleDictationError(controller, errorMessage)
 
 		return RecordingResult.create({
 			success: false,

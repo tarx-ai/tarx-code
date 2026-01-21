@@ -3,14 +3,14 @@ import type { Environment } from "../../../src/config"
 import { getEnvironmentColor } from "../utils/environmentColors"
 
 /**
- * ClineLogoSanta component renders the Cline logo with a festive Santa hat
+ * TarxLogoSanta component renders the TARX logo with a festive Santa hat
  * Includes automatic theme adaptation and environment-based color indicators.
  *
- * This festive version adds a Santa hat to the robot character while maintaining
- * the same theme and environment color system as ClineLogoVariable.
+ * This festive version adds a Santa hat to the TARX logo while maintaining
+ * the same theme and environment color system as TarxLogoVariable.
  *
  * @param {SVGProps<SVGSVGElement> & { environment?: Environment }} props - Standard SVG props plus optional environment
- * @returns {JSX.Element} SVG Cline logo with Santa hat that adapts to VS Code themes and environment
+ * @returns {JSX.Element} SVG TARX logo with Santa hat that adapts to VS Code themes and environment
  */
 const ClineLogoSanta = (props: SVGProps<SVGSVGElement> & { environment?: Environment }) => {
 	const { environment, ...svgProps } = props
@@ -19,27 +19,34 @@ const ClineLogoSanta = (props: SVGProps<SVGSVGElement> & { environment?: Environ
 	const fillColor = environment ? getEnvironmentColor(environment) : "var(--vscode-icon-foreground)"
 
 	return (
-		<svg height="50" viewBox="0 0 66.62 63.92" width="47" xmlns="http://www.w3.org/2000/svg" {...svgProps}>
-			{/* Original Cline robot logo */}
+		<svg fill="none" viewBox="0 0 785 702" xmlns="http://www.w3.org/2000/svg" {...svgProps}>
+			{/* Bottom arc (smile) */}
 			<path
-				d="M55.69,42.04l-2.91-5.8v-3.34c0-5.54-4.47-10.03-9.98-10.03h-4.97c.36-.73.56-1.56.56-2.43,0-3.08-2.49-5.57-5.57-5.57s-5.57,2.49-5.57,5.57c0,.87.2,1.7.56,2.43h-4.97c-5.51,0-9.98,4.49-9.98,10.03v3.34l-2.97,5.79c-.3.58-.3,1.28,0,1.86l2.97,5.72v3.34c0,5.54,4.47,10.03,9.98,10.03h19.96c5.51,0,9.98-4.49,9.98-10.03v-3.34l2.9-5.74c.29-.57.29-1.25,0-1.82ZM29.79,46.77c0,2.52-2.04,4.56-4.56,4.56s-4.56-2.04-4.56-4.56v-8.1c0-2.52,2.04-4.56,4.56-4.56s4.56,2.04,4.56,4.56v8.1ZM44.47,46.77c0,2.52-2.04,4.56-4.56,4.56s-4.56-2.04-4.56-4.56v-8.1c0-2.52,2.04-4.56,4.56-4.56s4.56,2.04,4.56,4.56v8.1Z"
+				d="M761.857 366.416C773.587 501.673 671.076 620.569 535.82 632.299C400.563 644.029 281.667 541.518 269.937 406.262C258.207 271.005 360.718 152.109 495.974 140.379C631.231 128.649 750.127 231.16 761.857 366.416Z"
 				fill={fillColor}
 			/>
+			{/* Wave/M shape */}
+			<path
+				d="M184.957 122.191C215.959 67.5248 267.017 29.0174 325.259 11.1174C383.501 -6.78255 447.652 -3.15788 504.587 21.4003C561.522 45.9585 607.371 89.4389 634.118 144.613C660.864 199.787 666.664 262.755 650.471 322.003C677.179 292.119 697.396 256.595 709.513 217.945C721.63 179.294 725.333 138.523 720.383 98.3743C715.434 58.2252 701.943 19.6457 680.869 -14.9318C659.796 -49.5092 631.62 -79.3657 598.2 -102.34C564.78 -125.314 526.833 -140.91 486.845 -148.047C446.857 -155.184 405.759 -153.699 366.399 -143.689C327.04 -133.678 290.409 -115.36 259.011 -90.0248C227.613 -64.6895 202.158 -33.0236 184.369 3.08817C184.369 3.08817 121.327 113.261 99.9156 195.972C80.4127 271.382 82.0969 380.959 82.0969 380.959C94.7174 306.252 121.661 234.564 161.622 170.195C169.326 157.777 177.347 145.554 184.957 122.191Z"
+				fill={fillColor}
+			/>
+			{/* Left dot (eye) */}
+			<circle cx="124.083" cy="245.644" fill={fillColor} r="36.29" />
+			{/* Right dot (eye) */}
+			<circle cx="660.501" cy="240.085" fill={fillColor} r="36.318" />
 
 			{/* Santa hat - main red body */}
 			<path
-				d="M57.49,17.46,60.4,14.63c-.14-.01-.21-.13-.27-.26-1.43-2.96-1.52-3.53-4.67-6.86S43.99-.26,33.66.78c-2.51.25-7.99,1.46-11.38,4.92s-6.13,3.78-7.64,8.29c-.27.8-.39,1.63-.63,2.23-.03.07-.08.13-.15.16-.71.36-1.12.58-1.22.65-1.31.91-2.08,2.19-2.29,3.84-.21,1.66-.37,2.93-.46,3.83-.2,1.91.39,3.41,1.77,4.5.87.69,2.68-.33,3.63-1.16,4.39-3.85,16.92,1.42,24.19,2.64,3.06.51,7.98-.36,11.58.56,2.81.72,4.92,2.12,5.3-.71.24-1.81.41-3.27.53-4.39.17-1.75-.43-2.98-1.51-4.22-.07-.08-.11-.18-.11-.29-.01-.44,0-.9.02-1.38.08-1.87-1.10-3.89-1.4-5.9,0-.07.06-.1.12-.09,6.03,1.05,4.91,1.28,4.56,1.91"
+				d="M680 80 L750 20 C760 10 770 15 765 30 L720 120 C715 135 700 140 680 135 L550 100 C520 92 500 75 510 55 L540 10 C550 -5 580 -10 620 5 L680 80Z"
 				fill="#CC3333"
 			/>
-
 			{/* Santa hat - white fur trim */}
 			<path
-				d="M39.99,17.91c3.92.68,8.56,1.61,11.8,2.55.66.19,1.35.42,2.07.69,2.09.79,3.34,2.54,3.03,5.31-.24,2.13-.47,3.9-.68,5.34-.02.12-.05.24-.09.35-.51,1.43-1.33,2.3-2.46,2.61-.54.15-1.59,0-3.16-.45-4.77-1.35-11.05-2.49-16.7-3.16s-14.15-1.31-19.11-1.13c-1.63.06-2.69-.04-3.18-.31-1.02-.57-1.61-1.61-1.77-3.12-.01-.12-.01-.24,0-.36.13-1.44.33-3.23.6-5.35.35-2.76,1.98-4.17,4.2-4.44.77-.09,1.49-.15,2.18-.18,3.37-.14,10.25.3,14.21.57"
+				d="M500 90 C480 85 460 100 470 115 L680 160 C710 168 730 155 725 135 L720 120 C715 105 700 100 680 95 L500 90Z"
 				fill="white"
 			/>
-
 			{/* Santa hat - white pom-pom */}
-			<circle cx="61.35" cy="19.8" fill="white" r="5.27" />
+			<circle cx="765" cy="25" fill="white" r="25" />
 		</svg>
 	)
 }

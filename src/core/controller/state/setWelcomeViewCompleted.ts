@@ -9,16 +9,19 @@ import type { Controller } from "../index"
  * @returns Empty response
  */
 export async function setWelcomeViewCompleted(controller: Controller, request: BooleanRequest): Promise<Empty> {
+	console.log(`[setWelcomeViewCompleted] Called with value: ${request.value}`)
 	try {
 		// Update the global state to set welcomeViewCompleted to the requested value
+		console.log("[setWelcomeViewCompleted] Updating global state...")
 		controller.stateManager.setGlobalState("welcomeViewCompleted", request.value)
 
+		console.log("[setWelcomeViewCompleted] Posting state to webview...")
 		await controller.postStateToWebview()
 
-		console.log(`Welcome view completed set to: ${request.value}`)
+		console.log(`[setWelcomeViewCompleted] Successfully set welcomeViewCompleted to: ${request.value}`)
 		return Empty.create({})
 	} catch (error) {
-		console.error("Failed to set welcome view completed:", error)
+		console.error("[setWelcomeViewCompleted] Failed:", error)
 		throw error
 	}
 }
